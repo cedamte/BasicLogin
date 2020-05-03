@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BasicLogin</string>
+    <string name="welcome_basic_login">Welcome to Basic Login App</string>
+</resources>
