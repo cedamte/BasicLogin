@@ -58,5 +58,11 @@ dependencies {
     // optional - RxJava support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
 
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Material Design
+    implementation "com.google.android.material:material:$material_version"
+
 
 }
