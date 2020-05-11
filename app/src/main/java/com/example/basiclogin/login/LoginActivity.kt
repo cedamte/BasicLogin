@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.example.basiclogin.R
 import com.example.basiclogin.app.BasicLoginApp
 import com.example.basiclogin.home.MainActivity
+import com.example.basiclogin.registration.RegistrationActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -37,6 +38,11 @@ class LoginActivity : AppCompatActivity() {
     private fun setUpViews() {
         btn_login.setOnClickListener {
             loginViewModel.login()
+        }
+
+        btn_registration.setOnClickListener {
+            val intent = Intent(this, RegistrationActivity::class.java)
+            startActivity(intent)
         }
     }
 }

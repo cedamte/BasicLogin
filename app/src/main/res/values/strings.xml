@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">BasicLogin</string>
     <string name="welcome_basic_login">Welcome to Basic Login App</string>
+    <string name="welcome_basic_registration">Welcome to Basic Registration App</string>
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="login_error_message">Error logging you in. Try again</string>
     <string name="login_sign_in">Sign in</string>
     <string name="main_logout">Logout</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="re_type_password">Re-type Password</string>
 </resources>
