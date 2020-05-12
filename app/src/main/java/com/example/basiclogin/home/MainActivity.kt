@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.basiclogin.R
 import com.example.basiclogin.app.BasicLoginApp
 import com.example.basiclogin.login.LoginActivity
+import com.example.basiclogin.registration.RegistrationActivity
 import com.example.basiclogin.user.UserManager
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,12 +21,17 @@ class MainActivity : AppCompatActivity() {
         val userManager: UserManager = (application as BasicLoginApp).userManager
 
         if (!userManager.isUserLoggedIn()) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (!userManager.isUserRegistered()) {
+                val intent = Intent(this, RegistrationActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         } else {
             setContentView(R.layout.activity_main)
-
             homeViewModel = HomeViewModel(userManager = userManager)
             setUpViews()
         }
