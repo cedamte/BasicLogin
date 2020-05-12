@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -28,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                 }
                 is LoginViewState.LoginError -> {
+                    tv_error_message.text = loginState.errorMessage
                     tv_error_message.visibility = View.VISIBLE
                 }
             }
@@ -36,12 +36,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setUpViews() {
+        et_username.isEnabled = false
+        et_username.setText(loginViewModel.getUserName())
+
         btn_login.setOnClickListener {
-            loginViewModel.login()
+            loginViewModel.login(
+                username = et_username.text.toString(),
+                password = et_password.text.toString()
+            )
         }
 
-        btn_registration.setOnClickListener {
+        btn_unregister.setOnClickListener {
+            loginViewModel.unRegisterUser()
             val intent = Intent(this, RegistrationActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
     }
@@ -49,5 +59,5 @@ class LoginActivity : AppCompatActivity() {
 
 sealed class LoginViewState {
     object LoginSuccess : LoginViewState()
-    object LoginError : LoginViewState()
+    data class LoginError(val errorMessage: String) : LoginViewState()
 }
