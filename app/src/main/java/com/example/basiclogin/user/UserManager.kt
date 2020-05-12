@@ -1,20 +1,43 @@
 package com.example.basiclogin.user
 
-class UserManager {
+import com.example.basiclogin.storage.Storage
 
-    val userName: String = "username"
-    val userPassword: String = "password"
+private const val REGISTERED_USER = "registered_user"
+private const val PASSWORD_SUFFIX = "password"
 
-    var userSession: UserDataSession? = null
+class UserManager(private val storage: Storage) {
+
+    private var userSession: UserDataSession? = null
+
+    fun registerUser(username: String, password: String) {
+        storage.setString(REGISTERED_USER, username)
+        storage.setString("$username$PASSWORD_SUFFIX", password)
+        userSessionStarted()
+    }
+
+    val username: String
+        get() = storage.getString(REGISTERED_USER)
+
+    fun isUserRegistered(): Boolean = storage.getString(REGISTERED_USER).isNotEmpty()
 
 
     fun isUserLoggedIn(): Boolean {
         return userSession != null
     }
 
-    fun loginUser(): Boolean {
+    fun loginUser(
+        username: String,
+        password: String
+    ): Boolean {
+        val registeredUser = this.username
+        if (registeredUser != username) return false
+
+        val registeredPassword =
+            storage.getString("$username$PASSWORD_SUFFIX")
+        if (registeredPassword != password) return false
+
         userSessionStarted()
-        return false
+        return true
     }
 
     fun logout() {
@@ -23,6 +46,13 @@ class UserManager {
 
     private fun userSessionStarted() {
         userSession = UserDataSession()
+    }
+
+    fun unRegisterUser() {
+        val username = storage.getString(REGISTERED_USER)
+        storage.setString(REGISTERED_USER, "")
+        storage.setString("$username$PASSWORD_SUFFIX", "")
+        logout()
     }
 
 
